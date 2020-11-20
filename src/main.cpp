@@ -9,6 +9,9 @@ int main() {
 
     //gen_algorithm algorithm;
 
+
+    ///////
+
     do
     {
         std::cout << "Podaj rozmiar populacji: " << std::endl;
