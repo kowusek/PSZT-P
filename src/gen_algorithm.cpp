@@ -14,6 +14,17 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     parm_t = t;
 }
 
+void gen_algorithm::cross()
+{
+
+}
+
+void gen_algorithm::mutate()
+{
+    
+}
+
+
 void gen_algorithm::gen_function() {
 
 

@@ -4,6 +4,9 @@
 #include <vector>
 
 class gen_algorithm {
+private:
+    void cross();
+    void mutate();
 
     unsigned population_size;
     float mutation_probability;
