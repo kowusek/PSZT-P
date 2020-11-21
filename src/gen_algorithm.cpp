@@ -131,7 +131,7 @@ void gen_algorithm::cross()
 {
     std::vector<int> parent_to_cross;
 
-    for (int i = 0; i < population_size_to_cross; i++)
+    for (int i = 0; i < population_size; i++)
     {
         if (generate_number() % 100 < cross_probability)
         {
@@ -141,10 +141,10 @@ void gen_algorithm::cross()
 
     if (parent_to_cross.size() == 1)
     { 
-        int i = generate_number() % population_size_to_cross;
+        int i = generate_number() % population_size;
         while(i == 0)
         {
-            i = generate_number() % population_size_to_cross;
+            i = generate_number() % population_size;
         }
         crossMethod(generate_number() % 6, parent_to_cross[0], i);
     }
@@ -171,7 +171,7 @@ void gen_algorithm::cross()
 void gen_algorithm::mutate(int m)
 {
     int x;
-    for (int i = 0; i < population_size_to_cross; i++)
+    for (int i = 0; i < population_size; i++)
     {
         if (generate_number() % 100 < mutation_probability)
         {
@@ -225,7 +225,6 @@ unsigned gen_algorithm::generate_number()
 void gen_algorithm::test()
 {
     initPopulation();
-    population_size_to_cross = population_size;
     show();
     cross();
     show();
