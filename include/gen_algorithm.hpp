@@ -2,6 +2,7 @@
 #include <random>
 #include <chrono>
 #include <vector>
+#include <iostream>
 
 class gen_algorithm {
 private:
@@ -13,7 +14,9 @@ private:
     float cross_probability;
     unsigned parm_t;
     std::vector<std::vector<unsigned>>* population;
+    std::vector<unsigned>* fitness;
     std::vector<unsigned>* best_so_far;
+    unsigned generation;
 
 public:
     gen_algorithm();
@@ -25,4 +28,6 @@ public:
     void gen_function();
 
     unsigned generate_number();
+
+    void fintess_calc();
 };
