@@ -4,19 +4,19 @@ gen_algorithm::gen_algorithm() = default;
 
 gen_algorithm::~gen_algorithm() = default;
 
-gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector) {
+gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count) {
 
     population_size = p_size;
     mutation_probability = m_probability;
     cross_probability = c_probability;
     population = new std::vector<std::vector<unsigned>>;
     fitness = new std::vector<unsigned>;
-    best_so_far = NULL;
     parm_t = t;
     generation = 0;
     lengthOfVector = length_of_vector;
     best_so_far = new std::vector<unsigned>;
     best_fitnes_so_far = 0;
+    iteration_count = iter_count;
 }
 
 void gen_algorithm::cross()
@@ -96,7 +96,7 @@ void gen_algorithm::selection() {
     unsigned sum;
     std::vector<std::vector<unsigned>>* temp = new std::vector<std::vector<unsigned>>;
     
-    for( unsigned x = 0; x < population_size - 1; ++x ) {
+    for( unsigned x = 0; x < population_size; ++x ) {
 
         number = generate_number();
         //std::cout << number << std::endl;
@@ -110,9 +110,6 @@ void gen_algorithm::selection() {
                     temp->push_back(*i);
         }
     }
-
-    temp->push_back(*best_so_far);
-    population = temp;
 }
 
 void gen_algorithm::initPopulation()

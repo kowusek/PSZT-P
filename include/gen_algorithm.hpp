@@ -16,17 +16,18 @@ private:
     std::vector<std::vector<unsigned>>* population;
     std::vector<unsigned>* fitness;
     std::vector<unsigned>* best_so_far;
-    
     unsigned generation;
     unsigned lengthOfVector;
+    unsigned best_fitnes_so_far;
+    unsigned iteration_count;
 
 public:
-    unsigned best_fitnes_so_far;
+
     gen_algorithm();
 
     ~gen_algorithm();
 
-    gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector);
+    gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count);
 
     void gen_function();
 
