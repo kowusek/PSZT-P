@@ -6,9 +6,6 @@
 
 class gen_algorithm {
 private:
-    void cross();
-    void mutate();
-
     unsigned population_size;
     float mutation_probability;
     float cross_probability;
@@ -20,6 +17,19 @@ private:
     unsigned lengthOfVector;
     unsigned best_fitnes_so_far;
     unsigned iteration_count;
+
+    int population_size_to_cross;
+    unsigned lengthOfVector;
+
+    //std::vector<std::vector<unsigned>>* elements_to_new_population;
+
+    void cross();
+    void crossMethod(int method_number, int changed_element_number, int crossed_element_number);
+    void mutate( int m);
+
+    unsigned generate_number();
+
+    void initPopulation();
 
 public:
 
@@ -40,4 +50,6 @@ public:
     void initPopulation();
 
     void show();
+
+    void test();
 };
