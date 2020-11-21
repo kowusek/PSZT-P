@@ -31,5 +31,13 @@ int main() {
         
     } while (crossPropability < 0 || crossPropability > 100);
 
-    gen_algorithm test(populationSize, mutationPropability, crossPropability, 2);
+    gen_algorithm test(populationSize, mutationPropability, crossPropability, 2, 10);
+
+    test.initPopulation();
+    test.show();
+    test.fintess_calc();
+    test.selection();
+    test.show();
+    std::cout << test.best_fitnes_so_far << std::endl;
+
 }
