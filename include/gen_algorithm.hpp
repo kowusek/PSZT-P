@@ -18,9 +18,6 @@ private:
     unsigned best_fitnes_so_far;
     unsigned iteration_count;
 
-    int population_size_to_cross;
-    unsigned lengthOfVector;
-
     //std::vector<std::vector<unsigned>>* elements_to_new_population;
 
     void cross();
@@ -28,8 +25,6 @@ private:
     void mutate( int m);
 
     unsigned generate_number();
-
-    void initPopulation();
 
 public:
 
@@ -40,8 +35,6 @@ public:
     gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count);
 
     void gen_function();
-
-    unsigned generate_number();
 
     void fintess_calc();
 

@@ -295,31 +295,6 @@ void gen_algorithm::selection() {
     }
 }
 
-void gen_algorithm::initPopulation()
-{
-    for(unsigned i = 0; i < population_size; i++)
-    {
-        std::vector<unsigned> tmp;
-        for(unsigned x = 0; x < lengthOfVector; x++)
-        {
-            tmp.push_back(generate_number() % 2);
-        }
-        population->push_back(tmp);
-    }
-}
-
-void gen_algorithm::show()
-{
-    for(unsigned i = 0; i < population_size; i++)
-    {
-        for(unsigned x = 0; x < lengthOfVector; x++)
-        {
-            std::cout << population[0][i][x] << " ";
-        }
-        std::cout << "   ";
-    }
-    std::cout << "\n";
-
 void gen_algorithm::test()
 {
     initPopulation();
