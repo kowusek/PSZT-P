@@ -4,13 +4,9 @@
 int main() {
 
     int populationSize = 0;
+    int elemSize = 0;
     float mutationPropability = 0;
     float crossPropability = 0;
-
-    //gen_algorithm algorithm;
-
-
-    ///////
 
     do
     {
@@ -19,6 +15,14 @@ int main() {
         if(populationSize < 1) std::cout << "Rozmiar populacji musi byc wiekszy niz 0" << std::endl;
 
     } while (populationSize < 1);
+
+    do
+    {
+        std::cout << "Podaj rozmiar elementu: " << std::endl;
+        std::cin >> elemSize;
+        if(elemSize < 1) std::cout << "Rozmiar elementu musi byc wiekszy niz 0" << std::endl;
+
+    } while (elemSize < 1);
     
     do
     {
@@ -36,6 +40,7 @@ int main() {
         
     } while (crossPropability < 0 || crossPropability > 100);
 
-    //algorithm.gen_function(populationSize, mutationPropability, crossPropability);
+    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, 4, elemSize);
+    algorithm.test();
 
 }
