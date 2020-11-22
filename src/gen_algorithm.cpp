@@ -223,17 +223,19 @@ void gen_algorithm::initPopulation()
         {
             tmp.push_back(generate_number() % 2);
         }
-        population.push_back(tmp);
+        individual ind;
+        ind.set_gene(tmp);
+        population.push_back(ind);
     }
 }
 
-void gen_algorithm::show()
+void gen_algorithm::show() // don't work
 {
     for (unsigned i = 0; i < population_size; i++)
     {
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
-            std::cout << population[i][x] << " ";
+            //std::cout << population[i][x] << " ";
         }
         std::cout << "   ";
     }
