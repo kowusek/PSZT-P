@@ -21,7 +21,7 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_number, i
     // int b = generate_number() % (lengthOfVector - a) + a;
 
     int a = generate_number() % lengthOfVector/2;
-    int b = generate_number() % lengthOfVector/2 + lengthOfVector/2;
+    int b = (generate_number() % lengthOfVector/2) + lengthOfVector/2;
 
     //std::cout << " " << a <<" " << b << " " << crossed_element_number<< " tryb: " << method_number<< std::endl;
 
@@ -173,11 +173,11 @@ void gen_algorithm::cross()
 
 }
 
-void gen_algorithm::mutate(int m)
+void gen_algorithm::mutate()
 {
-    for(int i = 0; i < population_size; i++)
+    for(unsigned i = 0; i < population_size; i++)
     {
-        for (int x = 0; x < lengthOfVector; x++)
+        for (unsigned x = 0; x < lengthOfVector; x++)
         {
             if (generate_number() % 100 < mutation_probability)
             {
@@ -316,7 +316,7 @@ void gen_algorithm::test()
     show();
     cross();
     show();
-    mutate(3);
+    mutate();
     show();
 }
 
@@ -328,7 +328,8 @@ void gen_algorithm::start() {
 
         selection();
         cross();
-        mutate(2);
+        show();
+        mutate();
         fintess_calc();
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
