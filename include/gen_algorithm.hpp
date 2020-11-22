@@ -10,21 +10,22 @@ private:
     float mutation_probability;
     float cross_probability;
     unsigned parm_t;
-    std::vector<std::vector<unsigned>> population;
-    std::vector<unsigned> fitness;
-    std::vector<unsigned> best_so_far;
     unsigned generation;
     unsigned lengthOfVector;
     unsigned best_fitnes_so_far;
     unsigned iteration_count;
-
-    //std::vector<std::vector<unsigned>>* elements_to_new_population;
+    std::vector<std::vector<unsigned>> population;
+    std::vector<unsigned> fitness;
+    std::vector<unsigned> best_so_far;
 
     void cross();
     void crossMethod(int method_number, int changed_element_number, int crossed_element_number);
     void mutate( int m);
-
     unsigned generate_number();
+    void gen_function();
+    void fintess_calc();
+    void selection();
+    void initPopulation();
 
 public:
 
@@ -33,14 +34,6 @@ public:
     ~gen_algorithm();
 
     gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count);
-
-    void gen_function();
-
-    void fintess_calc();
-
-    void selection();
-
-    void initPopulation();
 
     void show();
 
