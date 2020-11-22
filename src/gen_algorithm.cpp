@@ -328,17 +328,10 @@ void gen_algorithm::start() {
     fintess_calc();
     for( unsigned i = 0; i < iteration_count; ++i ) {
 
-<<<<<<< HEAD
         selection();
-        //cross();
+        cross();
         mutate(2);
         fintess_calc();
-=======
-        //selection();
-        cross();
-        //mutate(2);
-        //fintess_calc();
->>>>>>> bugs
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
             std::cout << best_so_far[x] << " ";
