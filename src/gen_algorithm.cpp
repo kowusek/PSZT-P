@@ -267,6 +267,7 @@ void gen_algorithm::fintess_calc() {
 
         temp.push_back(score);
     }
+
     fitness.clear();
 
     for( auto & i : temp ) {
@@ -278,26 +279,28 @@ void gen_algorithm::fintess_calc() {
 void gen_algorithm::selection() {
 
     unsigned number;
-    std::vector<std::vector<unsigned>>::iterator i;
-    std::vector<unsigned>::iterator j;
     unsigned sum;
+    int count;
     std::vector<std::vector<unsigned>> temp;
     
     for( unsigned x = 0; x < population_size; ++x ) {
 
-        number = generate_number();
-        //std::cout << number << std::endl;
-        number = number % population_size;
+        number = generate_number() % population_size;
         sum = 0;
+        count = 0;
 
+        for( auto & i : fitness ) {
 
-        for( i = population.begin(), j = fitness.begin(); i != population.end(); ++i, ++j ) {
-
-                if( ( sum += *j ) > number )
-                    temp.push_back(*i);
+            if( ( sum += i ) > number ) {
+                temp.push_back(population[count]);
+                break;
+            }
+            count++;
         }
     }
+
     population.clear();
+
     for( auto & i : temp ) {
 
         population.push_back(i);
@@ -321,7 +324,7 @@ void gen_algorithm::start() {
     for( unsigned i = 0; i < iteration_count; ++i ) {
 
         selection();
-        cross();
+        //cross();
         mutate(2);
         fintess_calc();
         for (unsigned x = 0; x < lengthOfVector; x++)
