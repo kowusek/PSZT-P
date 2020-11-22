@@ -15,7 +15,7 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     best_fitnes_so_far = 0;
     iteration_count = iter_count;
 }
-void gen_algorithm::crossMethod(int method_number, int changed_element_number, int crossed_element_number)
+void gen_algorithm::crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec)
 {
     // int a = generate_number() % lengthOfVector;
     // int b = generate_number() % (lengthOfVector - a) + a;
@@ -124,12 +124,13 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_number, i
         break;
     }
 
-    population.push_back(tmp);
+    vec.push_back(tmp);
 }
 
 void gen_algorithm::cross()
 {
     std::vector<int> parent_to_cross;
+    std::vector<std::vector<unsigned>> vec;
 
     for (unsigned i = 0; i < population_size; i++)
     {
@@ -137,6 +138,11 @@ void gen_algorithm::cross()
         {
             parent_to_cross.push_back(i);
         }
+        else
+        {
+            vec[0].push_back(population[0][i]);
+        }
+        
     }
 
     if (parent_to_cross.size() == 1)
@@ -146,7 +152,7 @@ void gen_algorithm::cross()
         {
             i = generate_number() % population_size;
         }
-        crossMethod(generate_number() % 6, parent_to_cross[0], i);
+        crossMethod(generate_number() % 6, parent_to_cross[0], i, vec);
     }
     else if (parent_to_cross.size() > 1)
     {
@@ -158,14 +164,13 @@ void gen_algorithm::cross()
                 x = parent_to_cross[generate_number() % parent_to_cross.size()];
             }
             
-            crossMethod(generate_number() % 6, parent_to_cross[i], x);
+            crossMethod(generate_number() % 6, parent_to_cross[i], x, vec);
         }
     }
 
-    for (unsigned i = 0; i < parent_to_cross.size(); i++)
-    {
-        population[0].erase(population[0].begin() + parent_to_cross[i] - i);
-    }
+    population.clear();
+    population = vec;
+
 }
 
 void gen_algorithm::mutate(int m)
@@ -323,10 +328,17 @@ void gen_algorithm::start() {
     fintess_calc();
     for( unsigned i = 0; i < iteration_count; ++i ) {
 
+<<<<<<< HEAD
         selection();
         //cross();
         mutate(2);
         fintess_calc();
+=======
+        //selection();
+        cross();
+        //mutate(2);
+        //fintess_calc();
+>>>>>>> bugs
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
             std::cout << best_so_far[x] << " ";

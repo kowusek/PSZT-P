@@ -19,7 +19,7 @@ private:
     std::vector<unsigned> best_so_far;
 
     void cross();
-    void crossMethod(int method_number, int changed_element_number, int crossed_element_number);
+    void crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec);
     void mutate( int m);
     unsigned generate_number();
     void gen_function();
