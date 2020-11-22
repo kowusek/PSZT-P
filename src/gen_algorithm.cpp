@@ -10,9 +10,7 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     mutation_probability = m_probability;
     cross_probability = c_probability;
     parm_t = t;
-    generation = 0;
     lengthOfVector = length_of_vector;
-    best_fitnes_so_far = 0;
     iteration_count = iter_count;
 }
 void gen_algorithm::crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec)
@@ -328,7 +326,7 @@ void gen_algorithm::start() {
 
         selection();
         cross();
-        show();
+        //show();
         mutate();
         fintess_calc();
         for (unsigned x = 0; x < lengthOfVector; x++)

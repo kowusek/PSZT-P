@@ -3,20 +3,17 @@
 #include <chrono>
 #include <vector>
 #include <iostream>
+#include "individual.hpp"
 
 class gen_algorithm {
 private:
     unsigned population_size;
-    float mutation_probability;
-    float cross_probability;
+    unsigned mutation_probability;
+    unsigned cross_probability;
     unsigned parm_t;
-    unsigned generation;
     unsigned lengthOfVector;
-    unsigned best_fitnes_so_far;
     unsigned iteration_count;
-    std::vector<std::vector<unsigned>> population;
-    std::vector<unsigned> fitness;
-    std::vector<unsigned> best_so_far;
+    std::vector<individual> population;
 
     void cross();
     void crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec);
