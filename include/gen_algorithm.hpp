@@ -10,9 +10,9 @@ private:
     float mutation_probability;
     float cross_probability;
     unsigned parm_t;
-    std::vector<std::vector<unsigned>>* population;
-    std::vector<unsigned>* fitness;
-    std::vector<unsigned>* best_so_far;
+    std::vector<std::vector<unsigned>> population;
+    std::vector<unsigned> fitness;
+    std::vector<unsigned> best_so_far;
     unsigned generation;
     unsigned lengthOfVector;
     unsigned best_fitnes_so_far;
@@ -45,4 +45,6 @@ public:
     void show();
 
     void test();
+
+    void start();
 };
