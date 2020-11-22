@@ -9,6 +9,7 @@ int main() {
     float crossPropability = 0;
     int parm_t;
     int gen_count;
+    int parent_number;
 
     do
     {
@@ -58,6 +59,14 @@ int main() {
         
     } while (gen_count < 0);
 
-    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count);
+    do
+    {
+        std::cout << "Podaj ilość rodziców, którzy przedją do następnego pokolenia: " << std::endl;
+        std::cin >> parent_number;
+        if(parent_number < 0 || parent_number > populationSize) std::cout << "Ilość rodziców musi być z zakresu: 0 - rozmiar populacji." << std::endl;
+        
+    } while (gen_count < 0);
+
+    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count, parent_number);
     algorithm.start();
 }

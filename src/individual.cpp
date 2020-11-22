@@ -49,12 +49,12 @@ void individual::set_gene( std::vector<unsigned> & g ) {
 
 std::ostream & operator<< ( std::ostream & s, const individual & in ) {
    
-   for( auto & j : in.get_gene() ) {
+    for( auto & j : in.get_gene() ) {
 
-       s << j;
-   }
+        s << j;
+    }
    
-   s << " " << in.get_fitness() << std::endl;
+    s << " " << in.get_fitness() << std::endl;
 
-   return s;
- }
+    return s;
+}
