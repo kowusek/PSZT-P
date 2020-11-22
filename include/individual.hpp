@@ -18,5 +18,5 @@ class individual {
     unsigned get_fitness() const;
     void set_fitness( unsigned f );
     void set_gene( std::vector<unsigned> & g );
-
+    friend std::ostream & operator<< ( std::ostream & s, const individual & in );
 };

@@ -4,7 +4,7 @@ gen_algorithm::gen_algorithm() = default;
 
 gen_algorithm::~gen_algorithm() = default;
 
-gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count) {
+gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count, unsigned p_number ) {
 
     population_size = p_size;
     mutation_probability = m_probability;
@@ -12,6 +12,7 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     parm_t = t;
     lengthOfVector = length_of_vector;
     iteration_count = iter_count;
+    parent_number = p_number;
 }
 void gen_algorithm::crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec)
 {
@@ -225,8 +226,6 @@ unsigned gen_algorithm::generate_number()
 
 void gen_algorithm::fintess_calc() {
 
-    std::vector<unsigned>::iterator i;
-    std::vector<unsigned>::reverse_iterator j;
     unsigned ones_score = 0;
     unsigned zeros_score = 0;
     unsigned score = 0;
@@ -238,7 +237,7 @@ void gen_algorithm::fintess_calc() {
         zeros_score = 0;
         score = 0;
         
-        for( i = individual.get_gene().begin(); i != individual.get_gene().end(); ++i ) {
+        for( auto i = individual.get_gene().begin(); i != individual.get_gene().end(); ++i ) {
 
             if( *i == 0 )
                 break; 
@@ -246,7 +245,7 @@ void gen_algorithm::fintess_calc() {
                 ++ones_score;        
         }
     
-        for( j = individual.get_gene().rbegin(); j != individual.get_gene().rend(); ++j ) {
+        for( auto j = individual.get_gene().rbegin(); j != individual.get_gene().rend(); ++j ) {
         
             if( *j == 1 )
                 break; 
@@ -259,6 +258,7 @@ void gen_algorithm::fintess_calc() {
         
         individual.set_fitness(score);
     }
+    std::sort(population.begin(), population.end());
 }
 
 void gen_algorithm::selection() {
@@ -268,7 +268,7 @@ void gen_algorithm::selection() {
     int count;
     std::vector<individual> temp;
     
-    for( unsigned x = 0; x < population_size; ++x ) {
+    for( unsigned x = 0; x < population_size - parent_number; ++x ) {
 
         number = generate_number() % population_size;
         sum = 0;
@@ -282,6 +282,11 @@ void gen_algorithm::selection() {
             }
             count++;
         }
+    }
+
+    for( unsigned x = 0; x < parent_number; ++x ) {
+
+        parents.push_back(population[x]);
     }
 
     population.clear();
@@ -312,11 +317,18 @@ void gen_algorithm::start() {
         cross();
         //show();
         mutate();
+        prepare_next_gen();
         fintess_calc();
-        for (unsigned x = 0; x < lengthOfVector; x++)
-        {
-            std::cout << best_so_far[x] << " ";
-        }
-        std::cout << best_fitnes_so_far <<"\n";
+        std::cout << population[0];
     }
+}
+
+void gen_algorithm::prepare_next_gen() {
+
+    for( auto & i : parents ) {
+
+        population.push_back(i);
+    }
+
+    parents.clear();
 }
