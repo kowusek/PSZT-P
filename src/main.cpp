@@ -40,7 +40,9 @@ int main() {
         
     } while (crossPropability < 0 || crossPropability > 100);
 
-    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, 4, elemSize, 10);
-    algorithm.test();
+    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, 40, elemSize, 2000);
+    //algorithm.test();
+    algorithm.start();
+
 
 }
