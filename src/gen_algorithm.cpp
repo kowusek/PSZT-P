@@ -140,7 +140,7 @@ void gen_algorithm::cross()
         }
         else
         {
-            vec[0].push_back(population[0][i]);
+            vec.push_back(population[i]);
         }
         
     }
@@ -175,14 +175,12 @@ void gen_algorithm::cross()
 
 void gen_algorithm::mutate(int m)
 {
-    int x;
-    for (unsigned i = 0; i < population_size; i++)
+    for(int i = 0; i < population_size; i++)
     {
-        if (generate_number() % 100 < mutation_probability)
+        for (int x = 0; x < lengthOfVector; x++)
         {
-            for (int a = 0; a < m; a++)
+            if (generate_number() % 100 < mutation_probability)
             {
-                x = generate_number() % lengthOfVector;
                 population[i][x] = (population[i][x] + 1) % 2;
             }
         }
