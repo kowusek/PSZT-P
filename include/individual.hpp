@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 
 class individual {
 
@@ -13,6 +14,9 @@ class individual {
     individual(const individual & other);
     individual & operator=(const individual & other);
     bool operator< ( individual const & other) const;
-    std::vector<unsigned> get_gene();
-    unsigned get_fitness();
+    std::vector<unsigned>  const & get_gene() const;
+    unsigned get_fitness() const;
+    void set_fitness( unsigned f );
+    void set_gene( std::vector<unsigned> & g );
+
 };

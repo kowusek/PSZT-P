@@ -227,7 +227,6 @@ void gen_algorithm::fintess_calc() {
 
     std::vector<unsigned>::iterator i;
     std::vector<unsigned>::reverse_iterator j;
-    std::vector<unsigned> temp;
     unsigned ones_score = 0;
     unsigned zeros_score = 0;
     unsigned score = 0;
@@ -239,7 +238,7 @@ void gen_algorithm::fintess_calc() {
         zeros_score = 0;
         score = 0;
         
-        for( i = individual.begin(); i != individual.end(); ++i ) {
+        for( i = individual.get_gene().begin(); i != individual.get_gene().end(); ++i ) {
 
             if( *i == 0 )
                 break; 
@@ -247,7 +246,7 @@ void gen_algorithm::fintess_calc() {
                 ++ones_score;        
         }
     
-        for( j = individual.rbegin(); j != individual.rend(); ++j ) {
+        for( j = individual.get_gene().rbegin(); j != individual.get_gene().rend(); ++j ) {
         
             if( *j == 1 )
                 break; 
@@ -257,23 +256,8 @@ void gen_algorithm::fintess_calc() {
 
         if( zeros_score >= parm_t && ones_score >= parm_t )
             score += 100;
-
-        score += std::max(ones_score, zeros_score);
-
-        if( best_fitnes_so_far < score ) {
-
-            best_so_far = individual;
-            best_fitnes_so_far = score;
-        }
-
-        temp.push_back(score);
-    }
-
-    fitness.clear();
-
-    for( auto & i : temp ) {
-
-        fitness.push_back(i);
+        
+        individual.set_fitness(score);
     }
 }
 
@@ -282,7 +266,7 @@ void gen_algorithm::selection() {
     unsigned number;
     unsigned sum;
     int count;
-    std::vector<std::vector<unsigned>> temp;
+    std::vector<individual> temp;
     
     for( unsigned x = 0; x < population_size; ++x ) {
 
@@ -290,9 +274,9 @@ void gen_algorithm::selection() {
         sum = 0;
         count = 0;
 
-        for( auto & i : fitness ) {
+        for( auto & i : population ) {
 
-            if( ( sum += i ) > number ) {
+            if( ( sum += i.get_fitness() ) > number ) {
                 temp.push_back(population[count]);
                 break;
             }
