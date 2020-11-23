@@ -4,28 +4,44 @@ gen_algorithm::gen_algorithm() = default;
 
 gen_algorithm::~gen_algorithm() = default;
 
-gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count) {
+gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count, unsigned p_number ) {
 
     population_size = p_size;
     mutation_probability = m_probability;
     cross_probability = c_probability;
     parm_t = t;
-    generation = 0;
     lengthOfVector = length_of_vector;
-    best_fitnes_so_far = 0;
     iteration_count = iter_count;
+    parent_number = p_number;
 }
-void gen_algorithm::crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec)
+void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, int crossed_element_numberP, std::vector<std::vector<unsigned>> &vec)
 {
-    // int a = generate_number() % lengthOfVector;
-    // int b = generate_number() % (lengthOfVector - a) + a;
+    int x = generate_number() % lengthOfVector;
+    int y, a, b;
+    do
+    {
+        y = generate_number() % lengthOfVector;
+    } while (y == x);
+    
+    if(x > y)
+    {
+        a = y;
+        b = x;
+    }
+    else
+    {
+        a = x;
+        b = y;
+    }
 
-    int a = generate_number() % lengthOfVector/2;
-    int b = (generate_number() % lengthOfVector/2) + lengthOfVector/2;
+    //int a = generate_number() % lengthOfVector/2;
+    //int b = (generate_number() % lengthOfVector/2) + lengthOfVector/2;
 
     //std::cout << " " << a <<" " << b << " " << crossed_element_number<< " tryb: " << method_number<< std::endl;
 
     std::vector<unsigned> tmp;
+    std::vector<unsigned> changed_element_number = population[changed_element_numberP].get_gene();
+    std::vector<unsigned> crossed_element_number = population[crossed_element_numberP].get_gene();
 
     switch (method_number)
     {
@@ -33,90 +49,90 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_number, i
 
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         break;
 
     case 1: // a B c
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         break;
 
     case 2: // a b C
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         break;
 
     case 3: // A B c
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         break;
 
     case 4: // A b C
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         break;
 
     case 5: // a B C
         for (int i = 0; i < a; i++)
         {
-            tmp.push_back(population[changed_element_number][i]);
+            tmp.push_back(changed_element_number[i]);
         }
         for (int i = a; i < b; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         for (unsigned i = b; i < lengthOfVector; i++)
         {
-            tmp.push_back(population[crossed_element_number][i]);
+            tmp.push_back(crossed_element_number[i]);
         }
         break;
 
@@ -132,7 +148,7 @@ void gen_algorithm::cross()
     std::vector<int> parent_to_cross;
     std::vector<std::vector<unsigned>> vec;
 
-    for (unsigned i = 0; i < population_size; i++)
+    for (unsigned i = 0; i < population.size(); i++)
     {
         if (generate_number() % 100 < cross_probability)
         {
@@ -140,17 +156,17 @@ void gen_algorithm::cross()
         }
         else
         {
-            vec.push_back(population[i]);
+            vec.push_back(population[i].get_gene());
         }
-        
+        population[0].get_gene();
     }
 
     if (parent_to_cross.size() == 1)
     { 
-        int i = generate_number() % population_size;
+        int i = generate_number() % population.size();
         while(i == 0)
         {
-            i = generate_number() % population_size;
+            i = generate_number() % population.size();
         }
         crossMethod(generate_number() % 6, parent_to_cross[0], i, vec);
     }
@@ -168,22 +184,30 @@ void gen_algorithm::cross()
         }
     }
 
-    population.clear();
-    population = vec;
+    for(unsigned i = 0; i < vec.size(); i++)
+    {
+        population[i].set_gene(vec[i]);
+    }
+
+    //population.clear();
+    //population = vec;
+    //for()
 
 }
 
 void gen_algorithm::mutate()
 {
-    for(unsigned i = 0; i < population_size; i++)
+    for(unsigned i = 0; i < population.size(); i++)
     {
+        std::vector<unsigned> tmp = population[i].get_gene();
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
             if (generate_number() % 100 < mutation_probability)
             {
-                population[i][x] = (population[i][x] + 1) % 2;
+                tmp[x] = (tmp[x] + 1) % 2;
             }
         }
+        population[i].set_gene(tmp);
     }
 }
 
@@ -200,17 +224,19 @@ void gen_algorithm::initPopulation()
         {
             tmp.push_back(generate_number() % 2);
         }
-        population.push_back(tmp);
+        individual ind;
+        ind.set_gene(tmp);
+        population.push_back(ind);
     }
 }
 
-void gen_algorithm::show()
+void gen_algorithm::show() // don't work
 {
     for (unsigned i = 0; i < population_size; i++)
     {
         for (unsigned x = 0; x < lengthOfVector; x++)
         {
-            std::cout << population[i][x] << " ";
+            //std::cout << population[i][x] << " ";
         }
         std::cout << "   ";
     }
@@ -227,29 +253,26 @@ unsigned gen_algorithm::generate_number()
 
 void gen_algorithm::fintess_calc() {
 
-    std::vector<unsigned>::iterator i;
-    std::vector<unsigned>::reverse_iterator j;
-    std::vector<unsigned> temp;
     unsigned ones_score = 0;
     unsigned zeros_score = 0;
     unsigned score = 0;
     
 
-    for( auto & individual : population ) {
+    for( auto & i : population ) {
 
         ones_score = 0;
         zeros_score = 0;
         score = 0;
         
-        for( i = individual.begin(); i != individual.end(); ++i ) {
+        for( auto x = i.get_gene().begin(); x != i.get_gene().end(); ++x ) {
 
-            if( *i == 0 )
+            if( *x == 0 )
                 break; 
             else 
                 ++ones_score;        
         }
     
-        for( j = individual.rbegin(); j != individual.rend(); ++j ) {
+        for( auto j = i.get_gene().rbegin(); j != i.get_gene().rend(); ++j ) {
         
             if( *j == 1 )
                 break; 
@@ -259,48 +282,45 @@ void gen_algorithm::fintess_calc() {
 
         if( zeros_score >= parm_t && ones_score >= parm_t )
             score += 100;
-
+        
         score += std::max(ones_score, zeros_score);
 
-        if( best_fitnes_so_far < score ) {
-
-            best_so_far = individual;
-            best_fitnes_so_far = score;
-        }
-
-        temp.push_back(score);
+        i.set_fitness(score);
     }
-
-    fitness.clear();
-
-    for( auto & i : temp ) {
-
-        fitness.push_back(i);
-    }
+    std::sort(population.rbegin(), population.rend());
 }
 
 void gen_algorithm::selection() {
 
-    unsigned number;
-    unsigned sum;
+    long unsigned number;
+    long unsigned sum;
     int count;
-    std::vector<std::vector<unsigned>> temp;
-    
-    for( unsigned x = 0; x < population_size; ++x ) {
+    long unsigned fitness_sum = 0;
+    std::vector<individual> temp;
 
-        number = generate_number() % population_size;
+    for( auto i : population )
+        fitness_sum += i.get_fitness();
+    
+    for( unsigned x = 0; x < population_size - parent_number; ++x ) {
+
+        number = generate_number() % fitness_sum;
         sum = 0;
         count = 0;
 
-        for( auto & i : fitness ) {
+        for( auto & i : population ) {
 
-            if( ( sum += i ) > number ) {
+            if( ( sum += i.get_fitness() ) > number ) {
                 temp.push_back(population[count]);
                 break;
             }
             count++;
         }
     }
+
+    parents.clear();
+
+    for( unsigned x = 0; x < parent_number; ++x )
+        parents.push_back(population[x]);
 
     population.clear();
 
@@ -328,13 +348,17 @@ void gen_algorithm::start() {
 
         selection();
         cross();
-        show();
         mutate();
+        prepare_next_gen();
         fintess_calc();
-        for (unsigned x = 0; x < lengthOfVector; x++)
-        {
-            std::cout << best_so_far[x] << " ";
-        }
-        std::cout << best_fitnes_so_far <<"\n";
+        std::cout << population[0];
+    }
+}
+
+void gen_algorithm::prepare_next_gen() {
+
+    for( auto & i : parents ) {
+
+        population.push_back(i);
     }
 }
