@@ -19,4 +19,6 @@ class individual {
     void set_fitness( unsigned f );
     void set_gene( std::vector<unsigned> & g );
     friend std::ostream & operator<< ( std::ostream & s, const individual & in );
+    friend std::string & operator+=( std::string & s, const individual & in );
+
 };

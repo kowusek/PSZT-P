@@ -353,7 +353,7 @@ void gen_algorithm::test()
     show();
 }
 
-void gen_algorithm::start() {
+individual gen_algorithm::start() {
 
     initPopulation();
     fintess_calc();
@@ -367,4 +367,5 @@ void gen_algorithm::start() {
         std::cout << "prawy: " << r_best_so_far;
         std::cout << best_so_far;
     }
+    return best_so_far;
 }

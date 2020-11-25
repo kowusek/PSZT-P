@@ -41,5 +41,5 @@ public:
 
     void test();
 
-    void start();
+    individual start();
 };

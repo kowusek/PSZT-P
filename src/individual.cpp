@@ -58,3 +58,11 @@ std::ostream & operator<< ( std::ostream & s, const individual & in ) {
 
     return s;
 }
+
+std::string & operator+=( std::string & s, const individual & in ) {
+
+    for( auto & j : in.get_gene() )
+        s += std::to_string(j);
+   
+    return s;
+}

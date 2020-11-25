@@ -1,5 +1,8 @@
 #include <iostream>
 #include "gen_algorithm.hpp"
+#include <chrono>
+#include <fstream>
+#include <sstream>
 
 int main() {
 
@@ -9,6 +12,7 @@ int main() {
     float crossPropability = 0;
     int parm_t;
     int gen_count;
+    std::string log;
 
     do
     {
@@ -59,5 +63,49 @@ int main() {
     } while (gen_count < 0);
 
     gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count );
-    algorithm.start();
+
+    log += "Rozmiar populacji;Rozmiar genu;Prawdopodobienstwo mutacji;Prawdopodobienstwo krzyzowania;parametr t;ilosc generacji;Najlepsze rozwiazanie;Czas;Wartosc funkcji celu\n";
+    
+    for(int i = 0; i < 35; ++i ) {
+    
+        auto start = std::chrono::system_clock::now();
+        std::time_t time2 = std::chrono::system_clock::to_time_t( start );
+
+        individual temp = algorithm.start();
+
+        auto end = std::chrono::system_clock::now();
+        std::time_t time1 = std::chrono::system_clock::to_time_t( end );
+
+        auto seconds = time1 - time2;
+        std::stringstream ss;
+        ss << seconds;
+        std::string ts = ss.str();
+
+        log += std::to_string(populationSize);
+        log += ";";
+        log += std::to_string(elemSize);
+        log += ";";
+        log += std::to_string(mutationPropability);
+        log += ";";
+        log += std::to_string(crossPropability);
+        log += ";";
+        log += std::to_string(parm_t);
+        log += ";";
+        log += std::to_string(gen_count);
+        log += ";";
+        log += "'";
+        log += temp;
+        log += "'";
+        log += ";";
+        log += ts;
+        log += ";";
+        log += std::to_string(temp.get_fitness());
+        log += "\n";
+    }
+
+    std::fstream file;
+
+    file.open( "./log.csv", std::ios::out );
+    file << log;
+    file.close();
 }
