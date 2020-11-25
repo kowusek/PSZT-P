@@ -259,6 +259,16 @@ void gen_algorithm::fintess_calc() {
     unsigned ones_score = 0;
     unsigned zeros_score = 0;
     unsigned score = 0;
+    std::vector<unsigned> a;
+
+    for( unsigned i = 0; i < lengthOfVector; ++i )
+        a.push_back(0);
+
+
+    l_best_so_far.set_fitness(0);
+    r_best_so_far.set_fitness(0);
+    l_best_so_far.set_gene(a);
+    r_best_so_far.set_gene(a);
     
 
     for( auto & i : population ) {
@@ -290,7 +300,11 @@ void gen_algorithm::fintess_calc() {
 
         i.set_fitness(score);
 
-        if(best_so_far < i)
+        if( l_best_so_far < i && ones_score > zeros_score )
+            l_best_so_far = i;
+        if( r_best_so_far < i && zeros_score > ones_score )
+            r_best_so_far = i;
+        if( best_so_far < i )
             best_so_far = i;
     }
     //std::sort(population.rbegin(), population.rend());
@@ -357,6 +371,8 @@ void gen_algorithm::start() {
         mutate();
         //prepare_next_gen();
         fintess_calc();
+        std::cout << "lewy: " << l_best_so_far;
+        std::cout << "prawy: " << r_best_so_far;
         std::cout << best_so_far;
     }
 }

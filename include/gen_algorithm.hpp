@@ -15,6 +15,8 @@ private:
     unsigned lengthOfVector;
     unsigned iteration_count;
     unsigned parent_number;
+    individual l_best_so_far;
+    individual r_best_so_far;
     individual best_so_far;
     std::vector<individual> population;
     std::vector<individual> parents;
