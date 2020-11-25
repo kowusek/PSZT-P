@@ -14,92 +14,99 @@ int main() {
     int gen_count;
     std::string log;
 
-    do
-    {
-        std::cout << "Podaj rozmiar populacji: " << std::endl;
-        std::cin >> populationSize;
-        if(populationSize < 1) std::cout << "Rozmiar populacji musi byc wiekszy niz 0." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj rozmiar populacji: " << std::endl;
+    //     std::cin >> populationSize;
+    //     if(populationSize < 1) std::cout << "Rozmiar populacji musi byc wiekszy niz 0." << std::endl;
 
-    } while (populationSize < 1);
+    // } while (populationSize < 1);
 
-    do
-    {
-        std::cout << "Podaj rozmiar elementu: " << std::endl;
-        std::cin >> elemSize;
-        if(elemSize < 1) std::cout << "Rozmiar elementu musi byc wiekszy niz 0." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj rozmiar elementu: " << std::endl;
+    //     std::cin >> elemSize;
+    //     if(elemSize < 1) std::cout << "Rozmiar elementu musi byc wiekszy niz 0." << std::endl;
 
-    } while (elemSize < 1);
+    // } while (elemSize < 1);
     
-    do
-    {
-        std::cout << "Podaj prawdopodobienstwo mutacji: " << std::endl;
-        std::cin >> mutationPropability;
-        if(mutationPropability < 0 || mutationPropability > 100) std::cout << "Prawdopodobienstwo musi byc z zakresu 0-100." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj prawdopodobienstwo mutacji: " << std::endl;
+    //     std::cin >> mutationPropability;
+    //     if(mutationPropability < 0 || mutationPropability > 100) std::cout << "Prawdopodobienstwo musi byc z zakresu 0-100." << std::endl;
         
-    } while (mutationPropability < 0 || mutationPropability > 100);
+    // } while (mutationPropability < 0 || mutationPropability > 100);
 
-    do
-    {
-        std::cout << "Podaj prawdopodobienstwo krzyzowania: " << std::endl;
-        std::cin >> crossPropability;
-        if(crossPropability < 0 || crossPropability > 100) std::cout << "Prawdopodobienstwo musi byc z zakresu 0-100." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj prawdopodobienstwo krzyzowania: " << std::endl;
+    //     std::cin >> crossPropability;
+    //     if(crossPropability < 0 || crossPropability > 100) std::cout << "Prawdopodobienstwo musi byc z zakresu 0-100." << std::endl;
         
-    } while (crossPropability < 0 || crossPropability > 100);
+    // } while (crossPropability < 0 || crossPropability > 100);
 
-    do
-    {
-        std::cout << "Podaj wartość parametru t: " << std::endl;
-        std::cin >> parm_t;
-        if(parm_t < 0 || parm_t > elemSize / 2) std::cout << "Wartość parametru t musi być z zakresu: 0 - rozmiar elementu / 2." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj wartość parametru t: " << std::endl;
+    //     std::cin >> parm_t;
+    //     if(parm_t < 0 || parm_t > elemSize / 2) std::cout << "Wartość parametru t musi być z zakresu: 0 - rozmiar elementu / 2." << std::endl;
         
-    } while (parm_t < 0 || parm_t > elemSize / 2);
+    // } while (parm_t < 0 || parm_t > elemSize / 2);
 
-    do
-    {
-        std::cout << "Podaj ilość generacji: " << std::endl;
-        std::cin >> gen_count;
-        if(gen_count < 0) std::cout << "Ilość generacji musi być większa od zera." << std::endl;
+    // do
+    // {
+    //     std::cout << "Podaj ilość generacji: " << std::endl;
+    //     std::cin >> gen_count;
+    //     if(gen_count < 0) std::cout << "Ilość generacji musi być większa od zera." << std::endl;
         
-    } while (gen_count < 0);
+    // } while (gen_count < 0);
 
-    gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count );
+    //gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count );
 
     log += "Rozmiar populacji;Rozmiar genu;Prawdopodobienstwo mutacji;Prawdopodobienstwo krzyzowania;parametr t;ilosc generacji;Najlepsze rozwiazanie;Czas;Wartosc funkcji celu\n";
     
-    for(int i = 0; i < 35; ++i ) {
+    for(int j = 0; j < 10; ++j ) {
+
+        for(int i = 0; i < 35; ++i ) {
     
-        auto start = std::chrono::system_clock::now();
-        std::time_t time2 = std::chrono::system_clock::to_time_t( start );
+            gen_algorithm algorithm( 100* (j + 1), 1, 75, 15, 50, 300 );
 
-        individual temp = algorithm.start();
+            auto start = std::chrono::system_clock::now();
+            std::time_t time2 = std::chrono::system_clock::to_time_t( start );
 
-        auto end = std::chrono::system_clock::now();
-        std::time_t time1 = std::chrono::system_clock::to_time_t( end );
+            individual temp = algorithm.start();
 
-        auto seconds = time1 - time2;
-        std::stringstream ss;
-        ss << seconds;
-        std::string ts = ss.str();
+            auto end = std::chrono::system_clock::now();
+            std::time_t time1 = std::chrono::system_clock::to_time_t( end );
 
-        log += std::to_string(populationSize);
-        log += ";";
-        log += std::to_string(elemSize);
-        log += ";";
-        log += std::to_string(mutationPropability);
-        log += ";";
-        log += std::to_string(crossPropability);
-        log += ";";
-        log += std::to_string(parm_t);
-        log += ";";
-        log += std::to_string(gen_count);
-        log += ";";
-        log += "'";
-        log += temp;
-        log += "'";
-        log += ";";
-        log += ts;
-        log += ";";
-        log += std::to_string(temp.get_fitness());
+            auto seconds = time1 - time2;
+            std::stringstream ss;
+            ss << seconds;
+            std::string ts = ss.str();
+
+            log += std::to_string(populationSize);
+            log += ";";
+            log += std::to_string(elemSize);
+            log += ";";
+            log += std::to_string(mutationPropability);
+            log += ";";
+            log += std::to_string(crossPropability);
+            log += ";";
+            log += std::to_string(parm_t);
+            log += ";";
+            log += std::to_string(gen_count);
+            log += ";";
+            log += "'";
+            log += temp;
+            log += "'";
+            log += ";";
+            log += ts;
+            log += ";";
+            log += std::to_string(temp.get_fitness());
+            log += "\n";
+        }
+        log += "\n";
         log += "\n";
     }
 
