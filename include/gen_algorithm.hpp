@@ -14,12 +14,10 @@ private:
     unsigned parm_t;
     unsigned lengthOfVector;
     unsigned iteration_count;
-    unsigned parent_number;
     individual l_best_so_far;
     individual r_best_so_far;
     individual best_so_far;
     std::vector<individual> population;
-    std::vector<individual> parents;
 
     void cross();
     void crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec);
@@ -37,7 +35,7 @@ public:
 
     ~gen_algorithm();
 
-    gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count, unsigned p_number);
+    gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count);
 
     void show();
 

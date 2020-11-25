@@ -4,7 +4,7 @@ gen_algorithm::gen_algorithm() = default;
 
 gen_algorithm::~gen_algorithm() = default;
 
-gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count, unsigned p_number ) {
+gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count) {
 
     population_size = p_size;
     mutation_probability = m_probability;
@@ -12,7 +12,6 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     parm_t = t;
     lengthOfVector = length_of_vector;
     iteration_count = iter_count;
-    parent_number = p_number;
 }
 void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, int crossed_element_numberP, std::vector<std::vector<unsigned>> &vec)
 {
@@ -307,7 +306,6 @@ void gen_algorithm::fintess_calc() {
         if( best_so_far < i )
             best_so_far = i;
     }
-    //std::sort(population.rbegin(), population.rend());
 }
 
 void gen_algorithm::selection() {
@@ -321,7 +319,7 @@ void gen_algorithm::selection() {
     for( auto i : population )
         fitness_sum += i.get_fitness();
     
-    for( unsigned x = 0; x < population_size/* - parent_number*/; ++x ) {
+    for( unsigned x = 0; x < population_size; ++x ) {
 
         number = generate_number() % fitness_sum;
         sum = 0;
@@ -336,11 +334,6 @@ void gen_algorithm::selection() {
             count++;
         }
     }
-
-    //parents.clear();
-
-    //for( unsigned x = 0; x < parent_number; ++x )
-    //    parents.push_back(population[x]);
 
     population.clear();
 
@@ -369,18 +362,9 @@ void gen_algorithm::start() {
         selection();
         cross();
         mutate();
-        //prepare_next_gen();
         fintess_calc();
         std::cout << "lewy: " << l_best_so_far;
         std::cout << "prawy: " << r_best_so_far;
         std::cout << best_so_far;
-    }
-}
-
-void gen_algorithm::prepare_next_gen() {
-
-    for( auto & i : parents ) {
-
-        population.push_back(i);
     }
 }
