@@ -39,7 +39,7 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
 
     //std::cout << " " << a <<" " << b << " " << crossed_element_number<< " tryb: " << method_number<< std::endl;
 
-    int a = generate_number() % lengthOfVector;
+    int a = generate_number() % (lengthOfVector - 1) ;
     int b = a;
 
     std::vector<unsigned> tmp;
@@ -50,7 +50,11 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
     {
     case 0: // A b c
 
-        for (int i = 0; i < a; i++)
+        tmp.insert(tmp.begin(), crossed_element_number.begin(), crossed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), changed_element_number.begin() + a, changed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), changed_element_number.begin() + b , changed_element_number.end());
+
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(crossed_element_number[i]);
         }
@@ -61,11 +65,16 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(changed_element_number[i]);
-        }
+        }*/
         break;
 
     case 1: // a B c
-        for (int i = 0; i < a; i++)
+
+        tmp.insert(tmp.begin(), changed_element_number.begin(), changed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), crossed_element_number.begin() + a, crossed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), changed_element_number.begin() + b , changed_element_number.end());
+
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(changed_element_number[i]);
         }
@@ -76,11 +85,16 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(changed_element_number[i]);
-        }
+        }*/
         break;
 
     case 2: // a b C
-        for (int i = 0; i < a; i++)
+
+        tmp.insert(tmp.begin(), changed_element_number.begin(), changed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), changed_element_number.begin() + a, changed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), crossed_element_number.begin() + b , crossed_element_number.end());
+
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(changed_element_number[i]);
         }
@@ -91,11 +105,16 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(crossed_element_number[i]);
-        }
+        }*/
         break;
 
     case 3: // A B c
-        for (int i = 0; i < a; i++)
+
+        tmp.insert(tmp.begin(), crossed_element_number.begin(), crossed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), crossed_element_number.begin() + a, crossed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), changed_element_number.begin() + b , changed_element_number.end());
+
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(crossed_element_number[i]);
         }
@@ -106,11 +125,16 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(changed_element_number[i]);
-        }
+        }*/
         break;
 
     case 4: // A b C
-        for (int i = 0; i < a; i++)
+
+        tmp.insert(tmp.begin(), crossed_element_number.begin(), crossed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), changed_element_number.begin() + a, changed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), crossed_element_number.begin() + b , crossed_element_number.end());
+
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(crossed_element_number[i]);
         }
@@ -121,11 +145,16 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(crossed_element_number[i]);
-        }
+        }*/
         break;
 
     case 5: // a B C
-        for (int i = 0; i < a; i++)
+
+        tmp.insert(tmp.begin(), changed_element_number.begin(), changed_element_number.begin() + a );
+        //tmp.insert(tmp.end(), crossed_element_number.begin() + a, crossed_element_number.begin() + b - 1);
+        tmp.insert(tmp.begin(), crossed_element_number.begin() + b , crossed_element_number.end());
+        
+        /*for (int i = 0; i < a; i++)
         {
             tmp.push_back(changed_element_number[i]);
         }
@@ -136,7 +165,7 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         for (unsigned i = b; i < lengthOfVector; i++)
         {
             tmp.push_back(crossed_element_number[i]);
-        }
+        }*/
         break;
 
     default:
