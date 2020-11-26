@@ -42,6 +42,7 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
     int b = a;
 
     std::vector<unsigned> tmp;
+    tmp.reserve(lengthOfVector);
     std::vector<unsigned> changed_element_number = population[changed_element_numberP].get_gene();
     std::vector<unsigned> crossed_element_number = population[crossed_element_numberP].get_gene();
 
@@ -149,6 +150,8 @@ void gen_algorithm::cross()
 {
     std::vector<int> parent_to_cross;
     std::vector<std::vector<unsigned>> vec;
+    parent_to_cross.reserve(lengthOfVector);
+    vec.reserve(lengthOfVector);
 
     for (unsigned i = 0; i < population.size(); i++)
     {
