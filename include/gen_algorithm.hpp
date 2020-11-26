@@ -20,7 +20,7 @@ private:
     std::vector<individual> population;
 
     void cross();
-    void crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec);
+    void crossMethod(int method_number, int changed_element_number, int crossed_element_number, std::vector<std::vector<unsigned>> &vec, bool isNotSingle);
     void mutate();
     unsigned generate_number();
     void gen_function();
