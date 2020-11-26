@@ -358,6 +358,30 @@ void gen_algorithm::selection() {
     }
 }
 
+// void gen_algorithm::selection() {
+
+//     std::vector<individual> temp;
+    
+//     for( unsigned x = 0; x < population_size; ++x ) {
+
+//         unsigned temp1 = generate_number() % population_size;
+//         unsigned temp2 = generate_number() % population_size;
+
+//         if( population[temp1] < population[temp2] )
+//             temp.push_back(population[temp2]);
+//         else 
+//             temp.push_back(population[temp1]);
+//     }
+
+//     population.clear();
+
+//     for( auto & i : temp ) {
+
+//         population.push_back(i);
+//     }
+// }
+
+
 void gen_algorithm::test()
 {
     initPopulation();
@@ -374,10 +398,10 @@ individual gen_algorithm::start() {
     fintess_calc();
     for( unsigned i = 0; i < iteration_count; ++i ) {
 
-        //selection();
-        //cross();
+        selection();
+        cross();
         mutate();
-        //fintess_calc();
+        fintess_calc();
         std::cout << "lewy: " << l_best_so_far;
         std::cout << "prawy: " << r_best_so_far;
         std::cout << best_so_far;

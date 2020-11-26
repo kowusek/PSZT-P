@@ -6,7 +6,7 @@
 
 int main() {
 
-    int populationSize = 100;
+    int populationSize = 500;
     int elemSize = 50;
     float mutationPropability = 1;
     float crossPropability = 75;
@@ -70,7 +70,7 @@ int main() {
 
         for(int i = 0; i < 35; ++i ) {
     
-            gen_algorithm algorithm( populationSize * (j + 1), mutationPropability, crossPropability, parm_t, elemSize, gen_count );
+            gen_algorithm algorithm( populationSize, mutationPropability * (j + 1), crossPropability, parm_t, elemSize, gen_count );
 
             auto start = std::chrono::system_clock::now();
             std::time_t time2 = std::chrono::system_clock::to_time_t( start );
