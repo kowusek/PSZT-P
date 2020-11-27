@@ -195,7 +195,7 @@ void gen_algorithm::mutate()
 
 void gen_algorithm::mutate()
 {
-    int numberOfElementsToChange = mutation_probability * lengthOfVector * population.size() / 100;
+    int numberOfElementsToChange = mutation_probability * lengthOfVector * population.size() / 1000;
     std::vector<std::vector<bool>> tmpCheckVec;
     std::vector<bool> tmpCheck;
 
