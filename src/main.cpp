@@ -11,7 +11,7 @@ int main() {
     int mutationPropability = 10;
     int crossPropability = 75;
     int parm_t = 15;
-    int gen_count = 100;
+    int gen_count = 300;
     std::string log;
 
     // do
@@ -70,7 +70,7 @@ int main() {
 
         for(int i = 0; i < 35; ++i ) {
     
-            gen_algorithm algorithm( populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count * (j + 1));
+            gen_algorithm algorithm( populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count);
 
             auto start = std::chrono::system_clock::now();
             std::time_t time2 = std::chrono::system_clock::to_time_t( start );
@@ -95,7 +95,7 @@ int main() {
             log += ";";
             log += std::to_string(parm_t);
             log += ";";
-            log += std::to_string(gen_count * (j + 1));
+            log += std::to_string(gen_count);
             log += ";";
             log += "'";
             log += temp;
