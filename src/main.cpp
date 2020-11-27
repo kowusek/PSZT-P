@@ -8,8 +8,8 @@ int main() {
 
     int populationSize = 500;
     int elemSize = 50;
-    int mutationPropability = 10;
-    int crossPropability = 75;
+    int mutationPropability = 30;
+    int crossPropability = 90;
     int parm_t = 15;
     int gen_count = 300;
     std::string log;

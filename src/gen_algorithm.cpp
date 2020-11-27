@@ -263,8 +263,7 @@ void gen_algorithm::show() // don't work
 unsigned gen_algorithm::generate_number()
 {
 
-    //unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    unsigned seed = 971089732109973210711111697;
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator(seed);
     return generator();
 }
