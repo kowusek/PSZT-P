@@ -14,6 +14,10 @@ gen_algorithm::gen_algorithm(unsigned p_size, float m_probability, float c_proba
     lengthOfVector = length_of_vector;
     iteration_count = iter_count;
 }
+
+/*
+*   Metoda wykonujaca krzyzowanie. Wybiera losowo ktore z pierwszych a elementow, potem kolejnych, bedzie pochodzic od ktorego rodzica.
+*/
 void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, int crossed_element_numberP, std::vector<std::vector<unsigned>> &vec, bool isNotSingle)
 {
     int a = generate_number() % lengthOfVector;
@@ -68,6 +72,10 @@ void gen_algorithm::crossMethod(int method_number, int changed_element_numberP, 
         vec.push_back(tmp2);
 }
 
+/*
+*   Krzyzowanie jendopunktowe. Na podstawie prawdopodobienstwa tworzone sa 2 grupy, nastepnie elementy z grupy pierwszej lacza
+*   sie z elementami z grupy drugiej. Z dwoch rodzicow powstaje dwojka dzieci. 
+*/
 void gen_algorithm::cross()
 {
     std::vector<std::vector<unsigned>> vec;
@@ -102,9 +110,9 @@ void gen_algorithm::cross()
         }
     }
 
-    if (second_half.size() == 0)
-    {
-        int i = generate_number() % population.size();
+    if (second_half.size() == 0)                            // gdy prawdopodobienstwo jest tak male, ze zostal wylosowany tylko jeden osobnik do 
+    {                                                       // skrzyzowania, jest on skrzyzowany z losowym innym osobnikiem, natomiast ten drugi
+        int i = generate_number() % population.size();      // nie zostaje nadpisany przez dziecko
         while (i == 0)
         {
             i = generate_number() % population.size();
@@ -118,7 +126,7 @@ void gen_algorithm::cross()
             if (second_half.size() == 0)
             {
                 int i = generate_number() % population.size();
-                while (i == first_half[0])
+                while (i == first_half[0])  
                 {
                     i = generate_number() % population.size();
                 }
@@ -141,7 +149,9 @@ void gen_algorithm::cross()
     }
 }
 /*
-void gen_algorithm::mutate()
+*   pierwsza wersja mutacji. Przechodzi po kazdym bicie kazdego elementu i wylicza prawdopodobienstwo
+*/
+void gen_algorithm::mutate_long()
 {
     for(unsigned i = 0; i < population.size(); i++)
     {
@@ -159,53 +169,11 @@ void gen_algorithm::mutate()
 
 void gen_algorithm::mutate()
 {
-    int tmpStart = generate_number() % lengthOfVector;
-    int step = 100/mutation_probability;
-    for(unsigned i = 0; i < population.size(); i++)
-    {
-        std::vector<unsigned> tmp = population[i].get_gene();
-        unsigned x;
-        for (x = tmpStart; x < lengthOfVector; x += step)
-        {
-            tmp[x] = (tmp[x] + 1) % 2;
-        }
-        population[i].set_gene(tmp);
-        tmpStart = x - lengthOfVector;
-
-    }
-}
-*/
-/*
-void gen_algorithm::mutate()
-{
-    int tmp = generate_number() % 100;
-    int step = mutation_probability * lengthOfVector;
-    for(int i = 0; i < population.size(); i++)
-    {
-        std::vector<unsigned> tmpVec = population[i].get_gene();
-        std::vector<bool> tmpCheckVec(lengthOfVector, false); 
-        while (tmp > 100)
-        {
-            tmp -= 100;
-            unsigned x = generate_number() % lengthOfVector;
-            while(tmpCheckVec[x] == true)
-            {
-                unsigned x = generate_number() % lengthOfVector;
-            }
-            tmpCheckVec[x] == true;
-            tmpVec[x] = (tmpVec[x] + 1) % 2;
-        }
-        tmp += step;
-    }
-}*/
-
-void gen_algorithm::mutate()
-{
-    int numberOfElementsToChange = mutation_probability * lengthOfVector * population.size() / 1000;
+    int numberOfElementsToChange = mutation_probability * lengthOfVector * population.size() / 1000;    // liczenie ilosci bitow do zmiany
     std::vector<std::vector<bool>> tmpCheckVec;
     std::vector<bool> tmpCheck;
 
-    for (unsigned i = 0; i < population_size; i++)
+    for (unsigned i = 0; i < population_size; i++)      // tworzenie tablicy przechowywującej zmnienione bity
     {
         for (unsigned j = 0; j < lengthOfVector; j++)
         {
@@ -214,22 +182,20 @@ void gen_algorithm::mutate()
         tmpCheckVec.push_back(tmpCheck);
     }
 
-    for (int i = 0; i < numberOfElementsToChange; i++)
+    for (int i = 0; i < numberOfElementsToChange; i++)      // zmiana kolejnych bitow
     {
         int x = generate_number() % population.size();
         int y = generate_number() % lengthOfVector;
 
-        while (tmpCheckVec[x][y] == true)
+        while (tmpCheckVec[x][y] == true)                   // sprawdzenie czy bit zostal juz zmieniony i ewentualne wylosowanie nowego
         {
             x = generate_number() % population.size();
             y = generate_number() % lengthOfVector;
         }
-
         tmpCheckVec[x][y] = true;
 
         std::vector<unsigned> tmpVec = population[x].get_gene();
         tmpVec[y] = (tmpVec[y] + 1) % 2;
-
         population[x].set_gene(tmpVec);
     }
 }
@@ -253,19 +219,6 @@ void gen_algorithm::initPopulation()
     }
 }
 
-void gen_algorithm::show() // don't work
-{
-    for (unsigned i = 0; i < population_size; i++)
-    {
-        for (unsigned x = 0; x < lengthOfVector; x++)
-        {
-            //std::cout << population[i][x] << " ";
-        }
-        std::cout << "   ";
-    }
-    std::cout << "\n";
-}
-
 unsigned gen_algorithm::generate_number()
 {
 
@@ -274,8 +227,7 @@ unsigned gen_algorithm::generate_number()
     return generator();
 }
 
-void gen_algorithm::fintess_calc()
-{
+void gen_algorithm::fintess_calc() {
 
     unsigned ones_score = 0;
     unsigned zeros_score = 0;
@@ -290,122 +242,100 @@ void gen_algorithm::fintess_calc()
     l_best_so_far.set_gene(a);
     r_best_so_far.set_gene(a);
 
-    for (auto &i : population)
-    {
+    for (auto &i : population) {
 
         ones_score = 0;
         zeros_score = 0;
         score = 0;
 
-        for (auto x = i.get_gene().begin(); x != i.get_gene().end(); ++x)
-        {
+        for (auto x = i.get_gene().begin(); x != i.get_gene().end(); ++x) { //
+                                                                            //
+            if (*x == 0)                                                    //
+                break;                                                      //
+            else                                                            //
+                ++ones_score;                                               //
+        }                                                                   // zliczanie jedynek od początku genu.
 
-            if (*x == 0)
-                break;
-            else
-                ++ones_score;
-        }
+        for (auto j = i.get_gene().rbegin(); j != i.get_gene().rend(); ++j) {   //
+                                                                                //
+            if (*j == 1)                                                        //
+                break;                                                          //
+            else                                                                //
+                ++zeros_score;                                                  //
+        }                                                                       // zliczanie zer od końca genu.
 
-        for (auto j = i.get_gene().rbegin(); j != i.get_gene().rend(); ++j)
-        {
+        if (zeros_score >= parm_t && ones_score >= parm_t)  //
+            score += 100;                                   // wartość super.
 
-            if (*j == 1)
-                break;
-            else
-                ++zeros_score;
-        }
+        score += std::max(ones_score, zeros_score); // dodajemy maksymalną wartośc pochodzącą od zer lub jedynek.
 
-        if (zeros_score >= parm_t && ones_score >= parm_t)
-            score += 100;
+        i.set_fitness(score);   // ustawiamy funkcję celu dla danego osobnika.
 
-        score += std::max(ones_score, zeros_score);
-
-        i.set_fitness(score);
-
-        if (l_best_so_far < i && ones_score > zeros_score)
-            l_best_so_far = i;
-        if (r_best_so_far < i && zeros_score > ones_score)
-            r_best_so_far = i;
-        if (best_so_far < i)
-            best_so_far = i;
+        if (l_best_so_far < i && ones_score > zeros_score)  //
+            l_best_so_far = i;                              //
+        if (r_best_so_far < i && zeros_score > ones_score)  //
+            r_best_so_far = i;                              //
+        if (best_so_far < i)                                //
+            best_so_far = i;                                // funkcje potrzebne do realizacji wyświetlania najlepszych osobników z zerami i jedynkami dla danej generacji.
     }
 }
 
-// void gen_algorithm::selection()
-// {
-
-//     long unsigned number;
-//     long unsigned sum;
-//     int count;
-//     long unsigned fitness_sum = 0;
-//     std::vector<individual> temp;
-
-//     for (auto i : population)
-//         fitness_sum += i.get_fitness();
-
-//     for (unsigned x = 0; x < population_size; ++x)
-//     {
-
-//         number = generate_number() % fitness_sum;
-//         sum = 0;
-//         count = 0;
-
-//         for (auto &i : population)
-//         {
-
-//             if ((sum += i.get_fitness()) > number)
-//             {
-//                 temp.push_back(population[count]);
-//                 break;
-//             }
-//             count++;
-//         }
-//     }
-
-//     population.clear();
-
-//     for (auto &i : temp)
-//     {
-
-//         population.push_back(i);
-//     }
-// }
-
 void gen_algorithm::selection() {
 
+    long unsigned number;
+    long unsigned sum;
+    int count;
+    long unsigned fitness_sum = 0;
     std::vector<individual> temp;
 
-    for( unsigned x = 0; x < population_size; ++x ) {
+    for (auto i : population)               //
+        fitness_sum += i.get_fitness();     // liczymy sumę wartości funkcji celu całej populacji.
 
-        unsigned temp1 = generate_number() % population_size;
-        unsigned temp2 = generate_number() % population_size;
+    for (unsigned x = 0; x < population_size; ++x) { // powtarzamy tyle razy ile wynosi wielkość populacji.
 
-        if( population[temp1] < population[temp2] )
-            temp.push_back(population[temp2]);
-        else
-            temp.push_back(population[temp1]);
+        number = generate_number() % fitness_sum; // losujemy liczbę z przedziału < 0, suma funkcji celu >
+        sum = 0;
+        count = 0;
+
+        for (auto &i : population) { // iterujemy po elementach populacji
+        
+            if ((sum += i.get_fitness()) > number)  {//jeśli dotychczasowa suma funkcji celu jest większa niż zadana liczba
+    
+                temp.push_back(population[count]);  // wybierz osobnika
+                break;
+            }
+            count++;
+        }
     }
 
     population.clear();
 
-    for( auto & i : temp ) {
+    for (auto &i : temp)            //
+        population.push_back(i);    // ładujemy nową populację. 
+}
 
-        population.push_back(i);
+void gen_algorithm::selection_tournament() {
+
+    std::vector<individual> temp;
+
+    for( unsigned x = 0; x < population_size; ++x ) { // powtarzamy tyle razy ile wynosi wielkość populacji.
+
+        unsigned temp1 = generate_number() % population_size; //
+        unsigned temp2 = generate_number() % population_size; // losujemy 2 osobników z populacji.
+
+        if( population[temp1] < population[temp2] ) // 
+            temp.push_back(population[temp2]);      //
+        else                                        //
+            temp.push_back(population[temp1]);      // wybieramy lepszego.
     }
+
+    population.clear(); // czyścimy dotychczasową populację.
+
+    for( auto & i : temp )          //
+        population.push_back(i);    // ładujemy nową populację.                              
 }
 
-void gen_algorithm::test()
-{
-    initPopulation();
-    show();
-    cross();
-    show();
-    mutate();
-    show();
-}
-
-individual gen_algorithm::start()
-{
+individual gen_algorithm::start() {
 
     initPopulation();
     fintess_calc();
@@ -415,39 +345,6 @@ individual gen_algorithm::start()
         cross();
         mutate();
         fintess_calc();
-        //std::cout << "lewy: " << l_best_so_far;
-        //std::cout << "prawy: " << r_best_so_far;
-        //std::cout << best_so_far;
-    }
-    return best_so_far;
-}
-
-individual gen_algorithm::start(std::string &log)
-{
-
-    initPopulation();
-    fintess_calc();
-    for (unsigned i = 0; i < iteration_count; ++i)
-    {
-        selection();
-        cross();
-        mutate();
-        fintess_calc();
-
-        log += std::to_string(population_size);
-        log += ";";
-        log += std::to_string(lengthOfVector);
-        log += ";";
-        log += std::to_string(mutation_probability);
-        log += ";";
-        log += std::to_string(cross_probability);
-        log += ";";
-        log += std::to_string(parm_t);
-        log += ";";
-        log += std::to_string(i);
-        log += ";";
-        log += std::to_string(best_so_far.get_fitness());
-        log += "\n";
         //std::cout << "lewy: " << l_best_so_far;
         //std::cout << "prawy: " << r_best_so_far;
         //std::cout << best_so_far;

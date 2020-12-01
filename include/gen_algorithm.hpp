@@ -28,6 +28,8 @@ private:
     void selection();
     void initPopulation();
     void prepare_next_gen();
+    void selection_tournament();
+    void mutate_long();
 
 public:
 
@@ -37,11 +39,5 @@ public:
 
     gen_algorithm(unsigned p_size, float m_probability, float c_probability, unsigned t, unsigned length_of_vector, unsigned iter_count);
 
-    void show();
-
-    void test();
-
     individual start();
-
-    individual start(std::string &string);
 };
