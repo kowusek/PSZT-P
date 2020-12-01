@@ -42,4 +42,6 @@ public:
     void test();
 
     individual start();
+
+    individual start(std::string &string);
 };

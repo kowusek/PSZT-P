@@ -9,9 +9,9 @@ int main() {
     int populationSize = 500;
     int elemSize = 50;
     int mutationPropability = 30;
-    int crossPropability = 90;
+    int crossPropability = 80;
     int parm_t = 15;
-    int gen_count = 300;
+    int gen_count = 500;
     std::string log;
 
     // do
@@ -65,12 +65,15 @@ int main() {
     //gen_algorithm algorithm(populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count );
 
     log += "Rozmiar populacji;Rozmiar genu;Prawdopodobienstwo mutacji;Prawdopodobienstwo krzyzowania;parametr t;ilosc generacji;Najlepsze rozwiazanie;Czas;Wartosc funkcji celu\n";
-    
+    //log += "Rozmiar populacji;Rozmiar genu;Prawdopodobienstwo mutacji;Prawdopodobienstwo krzyzowania;parametr t;Numer generacji;Wartosc funkcji celu\n";
+
     for(int j = 0; j < 10; ++j ) {
 
         for(int i = 0; i < 35; ++i ) {
+
+            std::cout << "j: " << j << "   i: " << i << std::endl;
     
-            gen_algorithm algorithm( populationSize, mutationPropability, crossPropability, parm_t, elemSize, gen_count);
+            gen_algorithm algorithm( populationSize, mutationPropability, crossPropability, 3 + 2 * j, elemSize, gen_count);
 
             auto start = std::chrono::system_clock::now();
             std::time_t time2 = std::chrono::system_clock::to_time_t( start );
@@ -84,7 +87,7 @@ int main() {
             std::stringstream ss;
             ss << seconds;
             std::string ts = ss.str();
-
+            
             log += std::to_string(populationSize);
             log += ";";
             log += std::to_string(elemSize);
@@ -93,7 +96,7 @@ int main() {
             log += ";";
             log += std::to_string(crossPropability);
             log += ";";
-            log += std::to_string(parm_t);
+            log += std::to_string(3 + 2 * j);
             log += ";";
             log += std::to_string(gen_count);
             log += ";";
@@ -105,6 +108,7 @@ int main() {
             log += ";";
             log += std::to_string(temp.get_fitness());
             log += "\n";
+            
         }
         log += "\n";
         log += "\n";
